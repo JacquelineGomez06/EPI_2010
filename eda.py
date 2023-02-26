@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, func
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from config import info
 
@@ -55,12 +56,29 @@ clean_gdp_epi=gdp_epi.dropna()
 #print(corruption_df.head())
 
 #filter for South America region
-epi_sa = clean_gdp_epi[clean_gdp_epi["geo_subregion"] == "South America"]
+epi_we = clean_gdp_epi[clean_gdp_epi["geo_subregion"]=="Western Europe"]
 #merge filtered data with courrption data on country
-sa_corruption=epi_sa.merge(corruption_df, how="left", on="country")
+merge_corruption=epi_we.merge(corruption_df, how="left", on="country")
+#remove country duplicates
+we_corruption=merge_corruption.drop_duplicates(subset=["country"])
+#print(we_corruption.head())
 
 
-sa_corruption.plot.scatter(x="country",y="score",c="DarkBlue")
+#plt data and save as images
 
+we_corruption.plot.bar(x="country",y="population07")
+plt.savefig("country_pop.png")
 
+we_corruption.plot.bar(x="country",y="score")
+plt.savefig("country_score")
 
+we_corruption.plot.bar(x="country",y="rank")
+plt.savefig("country_rank")
+
+we_corruption.plot.scatter(x="population07",y="score")
+plt.savefig("we_pop_score.png")
+
+we_corruption.plot.scatter(x="population07",y="rank")
+plt.savefig("pop_rank.png")
+
+plt.show()
