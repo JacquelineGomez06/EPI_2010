@@ -72,13 +72,15 @@ plt.savefig("country_pop.png")
 we_corruption.plot.bar(x="country",y="score")
 plt.savefig("country_score")
 
-we_corruption.plot.bar(x="country",y="rank")
-plt.savefig("country_rank")
+we_corruption.plot.bar(x="country",y="air_h")
+plt.savefig("country_air.png")
 
 we_corruption.plot.scatter(x="population07",y="score")
 plt.savefig("we_pop_score.png")
 
-we_corruption.plot.scatter(x="population07",y="rank")
-plt.savefig("pop_rank.png")
+we_corruption.plot.scatter(x="score",y="air_h")
+plt.savefig("air_score.png")
 
 plt.show()
+
+
